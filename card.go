@@ -20,14 +20,6 @@ type MultiverseId uint32
 // CardId which can be used to fetch the card by its id
 type CardId string
 
-// Ruling contains additional rule information about the card.
-type Ruling struct {
-	// Date the information was released.
-	Date Date `json:"date"`
-	// Text of the ruling hint.
-	Text string `json:"text"`
-}
-
 // ForeignCardName represents the name of the card in an other language
 type ForeignCardName struct {
 	// Name is the name of the card in the given language
@@ -117,8 +109,6 @@ type Card struct {
 	// Set to true if this card was only released as part of a core box set. These are technically part of the core sets and are tournament legal despite not being available in boosters.
 	Starter bool `json:"starter"`
 	// The rulings for the card.
-	Rulings []*Ruling `json:"rulings"`
-	// Foreign language names for the card, if this card in this set was printed in another language. An array of objects, each object having 'language’, 'name’ and 'multiverseid’ keys. Not available for all sets.
 	ForeignNames []ForeignCardName `json:"foreignNames"`
 	// The sets that this card was printed in, expressed as an array of set codes.
 	Printings []SetCode `json:"printings"`

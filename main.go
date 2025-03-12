@@ -11,7 +11,7 @@ const mtgApi = "https://api.magicthegathering.io/v1/cards?name=%s"
 
 func main() {
 	var cr cardResponse
-	resp, err := http.Get(fmt.Sprintf(mtgApi, "Black Lotus"))
+	resp, err := http.Get(fmt.Sprintf(mtgApi, "Lotus"))
 	if err != nil {
 		fmt.Println(err)
 		return
