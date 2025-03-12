@@ -1,12 +1,5 @@
 package main
 
-import (
-	"time"
-)
-
-// Date which can be unmarshalled from json
-type Date time.Time
-
 // SetCode representing one specific Set of cards
 type SetCode string
 
@@ -19,6 +12,14 @@ type MultiverseId uint32
 
 // CardId which can be used to fetch the card by its id
 type CardId string
+
+// Ruling contains additional rule information about the card.
+type Ruling struct {
+	// Date the information was released.
+	Date string `json:"date"`
+	// Text of the ruling hint.
+	Text string `json:"text"`
+}
 
 // ForeignCardName represents the name of the card in an other language
 type ForeignCardName struct {
@@ -105,10 +106,12 @@ type Card struct {
 	// Set to true if this card is reserved by Wizards Official Reprint Policy
 	Reserved bool `json:"reserved"`
 	// The date this card was released. This is only set for promo cards. The date may not be accurate to an exact day and month, thus only a partial date may be set (YYYY-MM-DD or YYYY-MM or YYYY). Some promo cards do not have a known release date.
-	ReleaseDate Date `json:"releaseDate"`
+	ReleaseDate string `json:"releaseDate"`
 	// Set to true if this card was only released as part of a core box set. These are technically part of the core sets and are tournament legal despite not being available in boosters.
 	Starter bool `json:"starter"`
 	// The rulings for the card.
+	Rulings []*Ruling `json:"rulings"`
+	// Foreign language names for the card, if this card in this set was printed in another language. An array of objects, each object having 'language’, 'name’ and 'multiverseid’ keys. Not available for all sets.
 	ForeignNames []ForeignCardName `json:"foreignNames"`
 	// The sets that this card was printed in, expressed as an array of set codes.
 	Printings []SetCode `json:"printings"`

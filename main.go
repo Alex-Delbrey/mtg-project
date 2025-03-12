@@ -33,7 +33,9 @@ func main() {
 	cards := cr.Cards
 
 	for _, card := range cards {
-		fmt.Println(card.Name)
+		if len(card.Rulings) != 0 {
+			fmt.Println(card.Rulings[0].Date)
+		}
 	}
 
 }
