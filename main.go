@@ -1,19 +1,39 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
-	// "github.com/gin-gonic/gin"
 )
 
 const mtgApi = "https://api.magicthegathering.io/v1/cards?name=%s"
 
 func main() {
-	c, err := http.Get(fmt.Sprintf(mtgApi, "Ancestor's Chosen"))
+	var cr cardResponse
+	resp, err := http.Get(fmt.Sprintf(mtgApi, "Black Lotus"))
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer c.Body.Close()
-	fmt.Println(c)
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	err = json.Unmarshal(body, &cr)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	cards := cr.Cards
+
+	for _, card := range cards {
+		fmt.Println(card.Name)
+	}
+
 }
