@@ -10,8 +10,12 @@ import (
 const mtgApi = "https://api.magicthegathering.io/v1/cards?name=%s"
 
 func main() {
+	fmt.Println("Enter mtg card name you wish to find: ")
+	var userCard string
+	fmt.Scanln(&userCard)
+
 	var cr cardResponse
-	resp, err := http.Get(fmt.Sprintf(mtgApi, "Lotus"))
+	resp, err := http.Get(fmt.Sprintf(mtgApi, userCard))
 	if err != nil {
 		fmt.Println(err)
 		return
