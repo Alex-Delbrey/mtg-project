@@ -42,4 +42,11 @@ func main() {
 		}
 	}
 
+	db, err := GetConn()
+	defer db.Close()
+	if err != nil {
+		fmt.Println("Connection to db failed")
+		return
+	}
+	fmt.Printf("Connection Successful to %T", db)
 }

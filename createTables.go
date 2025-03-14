@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	// "github.com/lib/pq"
+	_ "github.com/lib/pq"
 )
 
 const (
@@ -21,22 +21,23 @@ TODO:
 -make function for sending data (for now just the fiew fields in the table)
 -make function to get data from table*/
 
-func getConn() {
+func GetConn() (*sql.DB, error) {
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
-	conn, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		fmt.Printf("Error: %s", err)
-		return
+		return nil, err
 	}
-	defer conn.Close()
+	defer db.Close()
 
-	err = conn.Ping()
+	err = db.Ping()
 	if err != nil {
 		fmt.Printf("Error: %s", err)
-		return
+		return nil, err
 	}
+	return db, nil
 }
