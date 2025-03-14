@@ -48,5 +48,12 @@ func main() {
 		fmt.Println("Connection to db failed")
 		return
 	}
-	fmt.Printf("Connection Successful to %T", db)
+	fmt.Printf("Connection Successful to %T\n", db)
+
+	err = CreateTables(db)
+	if err != nil {
+		fmt.Printf("Failed to create table(s): %s\n", err)
+		return
+	}
+	fmt.Println("Created tables successfully")
 }

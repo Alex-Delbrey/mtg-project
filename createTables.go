@@ -14,10 +14,20 @@ const (
 	dbname   = "postgres"
 )
 
+// queries
+const (
+	CREATE_USER_ALL_CARDS_TABLE = `CREATE TABLE user_all_cards(
+		id serial PRIMARY KEY NOT NULL,
+		card_name VARCHAR(128) NOT NULL,
+		mana_cost VARCHAR(255) NOT NULL,
+		mana_cost_colors CHAR[],
+		types VARCHAR[] );`
+	DROP_USER_ALL_CARDS_TABLE = `DROP TABLE IF EXISTS user_all_cards;`
+)
+
 /* for checking errors with connections, I'll decide later if I want to panic
 or set some type of retry loop with retry limit
 TODO:
--properly make getConn() return connection
 -make function for sending data (for now just the fiew fields in the table)
 -make function to get data from table*/
 
@@ -32,7 +42,6 @@ func GetConn() (*sql.DB, error) {
 		fmt.Printf("Error: %s", err)
 		return nil, err
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
@@ -40,4 +49,14 @@ func GetConn() (*sql.DB, error) {
 		return nil, err
 	}
 	return db, nil
+}
+
+func CreateTables(db *sql.DB) error {
+	if _, err := db.Exec(DROP_USER_ALL_CARDS_TABLE); err != nil {
+		return err
+	}
+	if _, err := db.Exec(CREATE_USER_ALL_CARDS_TABLE); err != nil {
+		return err
+	}
+	return nil
 }
