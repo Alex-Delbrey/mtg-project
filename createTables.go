@@ -22,7 +22,9 @@ const (
 		mana_cost VARCHAR(255) NOT NULL,
 		mana_cost_colors CHAR[],
 		types VARCHAR[] );`
-	DROP_USER_ALL_CARDS_TABLE = `DROP TABLE IF EXISTS user_all_cards;`
+	DROP_USER_ALL_CARDS_TABLE   = `DROP TABLE IF EXISTS user_all_cards;`
+	INSERT_USER_ALL_CARDS_TABLE = `INSERT INTO user_all_cards VALUES 
+		('Black Lotus', '5', '{'B', 'W'}', '{})`
 )
 
 /* for checking errors with connections, I'll decide later if I want to panic
@@ -51,10 +53,7 @@ func GetConn() (*sql.DB, error) {
 	return db, nil
 }
 
-func CreateTables(db *sql.DB) error {
-	if _, err := db.Exec(DROP_USER_ALL_CARDS_TABLE); err != nil {
-		return err
-	}
+func CreateTablesAllCards(db *sql.DB) error {
 	if _, err := db.Exec(CREATE_USER_ALL_CARDS_TABLE); err != nil {
 		return err
 	}
